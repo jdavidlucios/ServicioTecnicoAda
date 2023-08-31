@@ -1,5 +1,4 @@
 package com.awakelab.serviciotecnicoada.entity;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "Usuarios")
-
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,9 +29,9 @@ public class Usuario {
     @Column(nullable = false, length = 35)
     private String rolUsuario;
 
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "usuarioTecnico", cascade = CascadeType.ALL)
     private Tecnico tecnico;
 
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "usuarioCliente", cascade = CascadeType.ALL)
     private Cliente cliente;
 }

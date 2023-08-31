@@ -1,5 +1,4 @@
 package com.awakelab.serviciotecnicoada.entity;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +9,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Entity
 @Table(name = "Clientes")
-
 public class Cliente extends Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

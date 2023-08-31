@@ -1,5 +1,4 @@
 package com.awakelab.serviciotecnicoada.entity;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,7 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "Tecnicos")
-
 public class Tecnico extends Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +24,7 @@ public class Tecnico extends Usuario {
 
     @OneToOne
     @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    private Usuario usuarioTecnico;
 
     @OneToMany(mappedBy = "tecnico")
     private List<Producto> productos;
