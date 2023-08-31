@@ -1,13 +1,14 @@
 package com.awakelab.serviciotecnicoada.service.serviceimpl;
-
 import com.awakelab.serviciotecnicoada.entity.Producto;
 import com.awakelab.serviciotecnicoada.repository.IProductoRepository;
 import com.awakelab.serviciotecnicoada.service.IProductoService;
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service("productoServiceImpl")
 public class ProductoServiceImpl implements IProductoService {
     @Autowired
     IProductoRepository objProductoRepo;
@@ -22,13 +23,13 @@ public class ProductoServiceImpl implements IProductoService {
     @Override
     public Producto actualizarProducto(Producto producto) {
         try {
-            if (objProductoRepo.existsById(producto.getId())){
+            if (objProductoRepo.existsById(producto.getId())) {
                 producto.setId(producto.getId());
                 objProductoRepo.save(producto);
-            }else {
+            } else {
                 throw new RuntimeException("UPS!!!! " + producto.getId() + " no existe");
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return producto;
@@ -49,14 +50,14 @@ public class ProductoServiceImpl implements IProductoService {
     @Override
     public void eliminarProducto(Producto producto) {
         try {
-            if (objProductoRepo.existsById(producto.getId())){
+            if (objProductoRepo.existsById(producto.getId())) {
                 objProductoRepo.deleteById(producto.getId());
-            }else {
+            } else {
                 throw new RuntimeException("UPS!!!! " + producto.getId() + " no existe");
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("Producto borrado exitosamente");
-
+    }
 }
