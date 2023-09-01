@@ -14,10 +14,10 @@ public class ProductoServiceImpl implements IProductoService {
     IProductoRepository objProductoRepo;
 
     @Override
-    public Producto crearProducto(Producto productoCreado) {
-        Producto nuevoProducto = new Producto();
-        nuevoProducto = objProductoRepo.save(productoCreado);
-        return nuevoProducto;
+    public Producto crearProducto(Producto nuevoProducto) {
+        Producto productoCreado = new Producto();
+        productoCreado = objProductoRepo.save(nuevoProducto);
+        return productoCreado;
     }
 
     @Override
