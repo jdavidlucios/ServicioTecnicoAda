@@ -16,16 +16,32 @@ public class UsuarioRestController {
 
     @GetMapping("/{id}")
     public Usuario listarUsuarioId(@PathVariable int id) {
+
         return objUsuarioService.listarUsuarioID(id);
     }
 
     @PostMapping
     public Usuario crearUsuario(@RequestBody Usuario usuario){
+
         return objUsuarioService.crearUsuario(usuario);
 
     }
     @GetMapping
     public List<Usuario> listarUsuarios(){
+
         return objUsuarioService.listarUsuario();
+    }
+
+    @PutMapping("/{id}")
+    public Usuario actualizarUsuario(@RequestBody Usuario usuario){
+
+        return objUsuarioService.actualizarUsuario(usuario);
+
+    }
+
+    @DeleteMapping("/{id}")
+    public void eliminarUsuario(@PathVariable Usuario usuario){
+
+        objUsuarioService.eliminarUsuario(usuario);
     }
 }

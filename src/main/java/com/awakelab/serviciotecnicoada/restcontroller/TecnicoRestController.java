@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/usuario")
+@RequestMapping("/api/tecnico")
 public class TecnicoRestController {
 
     @Autowired
@@ -16,16 +16,32 @@ public class TecnicoRestController {
 
     @GetMapping("/{id}")
     public Tecnico listarTecnicoId(@PathVariable int id) {
+
         return objTecnicoService.listarTecnicoID(id);
     }
 
     @PostMapping
     public Tecnico crearTecnico(@RequestBody Tecnico tecnico){
+
         return objTecnicoService.crearTecnico(tecnico);
 
     }
     @GetMapping
     public List<Tecnico> listarTecnicos(){
+
         return objTecnicoService.listarTecnico();
+    }
+
+    @PutMapping("/{id}")
+    public Tecnico actualizarTecnico(@RequestBody Tecnico tecnico){
+
+        return objTecnicoService.actualizarTecnico(tecnico);
+
+    }
+
+    @DeleteMapping("/{id}")
+    public void eliminarTecnico(@PathVariable Tecnico tecnico){
+
+        objTecnicoService.eliminarTecnico(tecnico);
     }
 }
