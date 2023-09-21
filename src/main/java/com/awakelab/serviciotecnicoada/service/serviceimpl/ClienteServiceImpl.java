@@ -21,7 +21,7 @@ public class ClienteServiceImpl implements IClienteService {
     }
 
     @Override
-    public Cliente actualizarCliente(Cliente cliente) {
+    public Cliente actualizarCliente(int id, Cliente cliente) {
         try {
             if (objClienteRepo.existsById(cliente.getId())){
                 cliente.setId(cliente.getId());
@@ -48,17 +48,15 @@ public class ClienteServiceImpl implements IClienteService {
     }
 
     @Override
-    public void eliminarCliente(Cliente cliente) {
-        try {
-            if (objClienteRepo.existsById(cliente.getId())){
-                objClienteRepo.deleteById(cliente.getId());
-            }else {
-                throw new RuntimeException("UPS!!!! " + cliente.getId() + " no existe");
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("Cliente borrado exitosamente");
+    public void eliminarCliente(int id) {
+        objClienteRepo.deleteById(id);
+    }
+
+    @Override
+    public void eliminarCliente2(Cliente cliente) {
+        objClienteRepo.delete(cliente);
+
+        System.out.println("Usuario borrado exitosamente");
     }
 
 }

@@ -13,9 +13,9 @@ public class ProductoRestController {
     @Autowired
     IProductoService objProductoService;
     @PostMapping
-    public Producto crearProducto(@RequestBody Producto nuevoProducto){
+    public Producto crearProducto(@RequestBody Producto producto){
 
-        return objProductoService.crearProducto(nuevoProducto);
+        return objProductoService.crearProducto(producto);
     }
     @GetMapping("/{id}")
     public Producto listarProductosId(@PathVariable int id) {
@@ -29,15 +29,15 @@ public class ProductoRestController {
     }
 
     @PutMapping("/{id}")
-    public Producto actualizarProducto(@RequestBody Producto producto){
+    public Producto actualizarProducto(@PathVariable int id, @RequestBody Producto producto){
 
-        return objProductoService.actualizarProducto(producto);
+        return objProductoService.actualizarProducto(id, producto);
 
     }
 
     @DeleteMapping("/{id}")
-    public void eliminarProducto(@PathVariable Producto producto){
+    public void eliminarProducto(@PathVariable int id){
 
-        objProductoService.eliminarProducto(producto);
+        objProductoService.eliminarProducto(id);
     }
 }

@@ -23,7 +23,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
-    public Usuario actualizarUsuario(Usuario usuario) {
+    public Usuario actualizarUsuario(int id, Usuario usuario) {
         try {
             if (objUsuarioRepo.existsById(usuario.getId())){
                 usuario.setId(usuario.getId());
@@ -45,21 +45,20 @@ public class UsuarioServiceImpl implements IUsuarioService {
     }
 
     @Override
-    public Usuario listarUsuarioID(int idUsuario) {
-        return objUsuarioRepo.findById(idUsuario).orElse(null);
+    public Usuario listarUsuarioID(int id) {
+        return objUsuarioRepo.findById(id).orElse(null);
+    }
+
+
+    @Override
+    public void eliminarUsuario(int id) {
+        objUsuarioRepo.deleteById(id);
     }
 
     @Override
-    public void eliminarUsuario(Usuario usuario) {
-        try {
-            if (objUsuarioRepo.existsById(usuario.getId())){
-                objUsuarioRepo.deleteById(usuario.getId());
-            }else {
-                throw new RuntimeException("UPS!!!! " + usuario.getId() + " no existe");
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void eliminarUsuario2(Usuario usuario) {
+        objUsuarioRepo.delete(usuario);
+
         System.out.println("Usuario borrado exitosamente");
     }
 }

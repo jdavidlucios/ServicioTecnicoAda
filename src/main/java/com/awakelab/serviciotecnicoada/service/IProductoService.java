@@ -4,8 +4,8 @@ import java.util.List;
 
 public interface IProductoService {
     public Producto crearProducto(Producto nuevoProducto);
-    Producto actualizarProducto(Producto producto);
+    Producto actualizarProducto(int id, Producto producto);
     public List<Producto> listarProducto();
-    public Producto listaProductoID(int idProducto);
-    public void eliminarProducto(Producto producto);
+    public Producto listaProductoID(int id);
+    public void eliminarProducto(int id);
 }

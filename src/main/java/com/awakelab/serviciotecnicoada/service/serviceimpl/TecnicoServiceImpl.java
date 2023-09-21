@@ -22,7 +22,7 @@ public class TecnicoServiceImpl implements ITecnicoService {
     }
 
     @Override
-    public Tecnico actualizarTecnico(Tecnico tecnico) {
+    public Tecnico actualizarTecnico(int id, Tecnico tecnico) {
         try {
             if (objTecnicoRepo.existsById(tecnico.getId())){
                 tecnico.setId(tecnico.getId());
@@ -49,16 +49,9 @@ public class TecnicoServiceImpl implements ITecnicoService {
     }
 
     @Override
-    public void eliminarTecnico(Tecnico tecnico) {
-        try {
-            if (objTecnicoRepo.existsById(tecnico.getId())){
-                objTecnicoRepo.deleteById(tecnico.getId());
-            }else {
-                throw new RuntimeException("UPS!!!! " + tecnico.getId() + " no existe");
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void eliminarTecnico(int id) {
+        objTecnicoRepo.deleteById(id);
+
         System.out.println("Técnico borrado exitosamente");
     }
 }

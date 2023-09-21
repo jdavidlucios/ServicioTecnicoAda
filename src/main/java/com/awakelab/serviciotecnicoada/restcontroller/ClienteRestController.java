@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/cliente")
+@RequestMapping("/api/clienteCreado")
 public class ClienteRestController {
     @Autowired
     IClienteService objClienteService;
@@ -31,15 +31,15 @@ public class ClienteRestController {
     }
 
     @PutMapping("/{id}")
-    public Cliente actualizarCliente(@RequestBody Cliente cliente){
+    public Cliente actualizarCliente(@PathVariable int id, @RequestBody Cliente cliente){
 
-        return objClienteService.actualizarCliente(cliente);
+        return objClienteService.actualizarCliente(id, cliente);
 
     }
 
     @DeleteMapping("/{id}")
-    public void eliminarCliente(@PathVariable Cliente cliente){
+    public void eliminarCliente(@PathVariable int id){
 
-        objClienteService.eliminarCliente(cliente);
+        objClienteService.eliminarCliente(id);
     }
 }

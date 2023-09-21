@@ -33,15 +33,15 @@ public class UsuarioRestController {
     }
 
     @PutMapping("/{id}")
-    public Usuario actualizarUsuario(@RequestBody Usuario usuario){
+    public Usuario actualizarUsuario(@PathVariable int id, @RequestBody Usuario usuario){
 
-        return objUsuarioService.actualizarUsuario(usuario);
+        return objUsuarioService.actualizarUsuario(id, usuario);
 
     }
 
     @DeleteMapping("/{id}")
-    public void eliminarUsuario(@PathVariable Usuario usuario){
+    public void eliminarUsuario(@PathVariable int id){
 
-        objUsuarioService.eliminarUsuario(usuario);
+        objUsuarioService.eliminarUsuario(id);
     }
 }

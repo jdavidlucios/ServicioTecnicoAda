@@ -33,15 +33,15 @@ public class TecnicoRestController {
     }
 
     @PutMapping("/{id}")
-    public Tecnico actualizarTecnico(@RequestBody Tecnico tecnico){
+    public Tecnico actualizarTecnico(@PathVariable int id, @RequestBody Tecnico tecnico){
 
-        return objTecnicoService.actualizarTecnico(tecnico);
+        return objTecnicoService.actualizarTecnico(id, tecnico);
 
     }
 
     @DeleteMapping("/{id}")
-    public void eliminarTecnico(@PathVariable Tecnico tecnico){
+    public void eliminarTecnico(@PathVariable int id){
 
-        objTecnicoService.eliminarTecnico(tecnico);
+        objTecnicoService.eliminarTecnico(id);
     }
 }

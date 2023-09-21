@@ -1,4 +1,5 @@
 package com.awakelab.serviciotecnicoada.service.serviceimpl;
+
 import com.awakelab.serviciotecnicoada.entity.Producto;
 import com.awakelab.serviciotecnicoada.repository.IProductoRepository;
 import com.awakelab.serviciotecnicoada.service.IProductoService;
@@ -21,18 +22,10 @@ public class ProductoServiceImpl implements IProductoService {
     }
 
     @Override
-    public Producto actualizarProducto(Producto producto) {
-        try {
-            if (objProductoRepo.existsById(producto.getId())) {
-                producto.setId(producto.getId());
-                objProductoRepo.save(producto);
-            } else {
-                throw new RuntimeException("UPS!!!! " + producto.getId() + " no existe");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return producto;
+    public Producto actualizarProducto(int id, Producto producto) {
+        Producto productoEncontrado = objProductoRepo.findById(id).orElse(null);
+        productoEncontrado.setNombreProducto(producto.getNombreProducto());
+        return objProductoRepo.save(productoEncontrado);
     }
 
     @Override
@@ -43,21 +36,14 @@ public class ProductoServiceImpl implements IProductoService {
     }
 
     @Override
-    public Producto listaProductoID(int idProducto) {
-        return objProductoRepo.findById(idProducto).orElse(null);
+    public Producto listaProductoID(int id) {
+        return objProductoRepo.findById(id).orElse(null);
     }
 
     @Override
-    public void eliminarProducto(Producto producto) {
-        try {
-            if (objProductoRepo.existsById(producto.getId())) {
-                objProductoRepo.deleteById(producto.getId());
-            } else {
-                throw new RuntimeException("UPS!!!! " + producto.getId() + " no existe");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void eliminarProducto(int id) {
+        objProductoRepo.deleteById(id);
+
         System.out.println("Producto borrado exitosamente");
     }
 }
