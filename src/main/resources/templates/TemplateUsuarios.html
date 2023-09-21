@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Usuarios</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+<header th:include="~{../static/Header.html}"></header>
+<section class="container px-4">
+  <div>
+    <!-- Boton agregar usuario -->
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AgregarUsuario">
+      Agregar Usuario
+    </button>
+    <!-- Modal agregar usuario -->
+    <div class="modal fade" id="AgregarUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel2">Agregar Usuario</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <form th:action="@{/usuario/crearUsuario}" method="post">
+            <div class="modal-body">
+              <div>
+                <label for="nombreUsuario" class="form-label">
+                  Nombres:
+                </label>
+                <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" required
+                       placeholder="ingrese nombres">
+              </div>
+              <div>
+                <label for="apellido1Usuario" class="form-label">
+                  Apellido Paterno:
+                </label>
+                <input type="text" class="form-control" id="apellido1Usuario" name="apellido1Usuario" required
+                       placeholder="ingrese apellido paterno">
+              </div>
+              <div>
+                <label for="apellido2Usuario" class="form-label">
+                  Apellido Materno:
+                </label>
+                <input type="text" class="form-control" id="apellido2Usuario" name="apellido2Usuario" required
+                       placeholder="ingrese apellido materno">
+              </div>
+              <div>
+                <label for="contrasenaUsuario" class="form-label">
+                  Contraseña:
+                </label>
+                <input type="password" class="form-control" id="contrasenaUsuario" name="contrasenaUsuario" required
+                       placeholder="ingrese contraseña">
+              </div>
+              <div>
+                <label for="rolUsuario" class="form-label">
+                  Rol:
+                </label>
+                <select class="form-control" id="rolUsuario" name= "rolUsuario" required>
+                  <option value="Cliente">Cliente</option>
+                  <option value="Tecnico">Técnico</option>
+                </select>
+              </div>
+              <div id="clienteFields">
+                <!-- Campos de Cliente: emailCliente y telefonoCliente -->
+                <label for="emailCliente" class="form-label">Email del Cliente:</label>
+                <input type="email" class="form-control" id="emailCliente" name="emailCliente" required>
+
+                <label for="telefonoCliente" class="form-label">Teléfono del Cliente:</label>
+                <input type="text" class="form-control" id="telefonoCliente" name="telefonoCliente" required>
+              </div>
+
+              <div id="tecnicoFields">
+                <!-- Campos de Técnico: emailTecnico y telefonoTecnico -->
+                <label for="emailTecnico" class="form-label">Email del Técnico:</label>
+                <input type="email" class="form-control" id="emailTecnico" name="emailTecnico" required>
+
+                <label for="telefonoTecnico" class="form-label">Teléfono del Técnico:</label>
+                <input type="text" class="form-control" id="telefonoTecnico" name="telefonoTecnico" required>
+              </div>
+
+            </div>
+            <script>
+              const rolUsuario = document.getElementById('rolUsuario');
+              const clienteFields = document.getElementById('clienteFields');
+              const tecnicoFields = document.getElementById('tecnicoFields');
+
+              // Oculta los campos de Cliente y Técnico al principio
+              clienteFields.style.display = 'none';
+              tecnicoFields.style.display = 'none';
+
+              // Agrega un evento de cambio al menú desplegable
+              rolUsuario.addEventListener('change', function () {
+                if (rolUsuario.value === 'Cliente') {
+                  clienteFields.style.display = 'block';
+                  tecnicoFields.style.display = 'none';
+                } else if (rolUsuario.value === 'Tecnico') {
+                  clienteFields.style.display = 'none';
+                  tecnicoFields.style.display = 'block';
+                } else {
+                  clienteFields.style.display = 'none';
+                  tecnicoFields.style.display = 'none';
+                }
+              });
+            </script>
+
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Crear Usuario</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <!-- Tabla Muestra Usuarios -->
+    <table class="table table-striped">
+      <!-- EncabezadosTabla -->
+      <thead>
+      <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Nombres</th>
+        <th scope="col">Apellido P</th>
+        <th scope="col">Apellido M</th>
+        <th scope="col">Rol</th>
+        <th scope="col">E-mail</th>
+        <th scope="col">Teléfono</th>
+      </tr>
+      </thead>
+      <!-- CuerpoTabla -->
+      <tbody>
+      <tr th:each="usuario: ${atributoListaUsuario}">
+        <th scope="row" th:text="${usuario.id}"></th>
+        <td th:text="${usuario.nombreUsuario}"></td>
+        <td th:text="${usuario.apellido1Usuario}"></td>
+        <td th:text="${usuario.apellido2Usuario}"></td>
+        <td th:text="${usuario.rolUsuario}"></td>
+        <!-- Columna Email condicional -->
+        <td>
+          <span th:if="${usuario.rolUsuario == 'Cliente'}" th:text="${cliente.emailCliente}"></span>
+          <span th:if="${usuario.rolUsuario == 'Tecnico'}" th:text="${tecnico.emailTecnico}"></span>
+        </td>
+        <!-- Columna Teléfono condicional -->
+        <td>
+          <span th:if="${usuario.rolUsuario == 'Cliente'}" th:text="${cliente.telefonoCliente}"></span>
+          <span th:if="${usuario.rolUsuario == 'Tecnico'}" th:text="${tecnico.telefonoTecnico}"></span>
+        </td>
+          <!-- Boton editar -->
+          <button type="button" class="btn btn-warning" data-bs-toggle="modal" th:data-bs-target="'#editar-' + ${usuario.id}">
+            Editar
+          </button>
+          <!-- Modal Editar -->
+          <div class="modal fade" th:id="'editar-' + ${usuario.id}" tabindex="-1" aria-labelledby="exampleModalLabel3"
+               aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel3">Editar Usuario</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"
+                          aria-label="Close"></button>
+                </div>
+                <form th:action="@{/usuario/editar/{id}(id=${usuario.getId()})}" method="post">
+                  <div class="modal-body">
+                    <div>
+                      <label for="nombreUsuario" class="form-label">
+                        Nombre de usuario:
+                      </label>
+                      <input type="text" class="form-control" id="actualizarNombre"
+                             name="nombreUsuario" required
+                             th:value="${usuario.nombreUsuario}">
+                    </div>
+                    <div>
+                      <label for="contrasena" class="form-label">
+                        Contraseña:
+                      </label>
+                      <input type="password" class="form-control" id="actualizarContrasena"
+                             name="contrasena" required
+                             th:value="${usuario.contrasena}">
+                    </div>
+                    <div>
+                      <label for="actualizarRol" class="form-label">
+                        Rol:
+                      </label>
+                      <select class="form-control" name="rol" id="actualizarRol" required>
+                        <option th:selected="${usuario.rol == 'Profesor'}" value="Profesor">
+                          Profesor
+                        </option>
+                        <option th:selected="${usuario.rol == 'Estudiante'}"
+                                value="Estudiante">Estudiante
+                        </option>
+                        <option th:selected="${usuario.rol == 'Administrador'}"
+                                value="Administrador">Administrador
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Editar Usuario</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <!-- Boton eliminar -->
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                  th:data-bs-target="'#eliminar-' + ${usuario.id}">
+            Eliminar
+          </button>
+          <!-- Modal Eliminar -->
+          <div class="modal fade" th:id="'eliminar-' + ${usuario.id}" tabindex="-1" aria-labelledby="exampleModalLabel"
+               aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Usuario</h1>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"
+                          aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <p th:text="'Estas seguro de eliminar a: ' + ${usuario.nombreUsuario} +'?'"/>
+                </div>
+                <div class="modal-footer">
+                  <form th:action="@{/usuario/eliminar/{id}(id=${usuario.id})}"
+                        method="post">
+                    <button class="btn btn-danger" type="submit">Eliminar</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+
+    </table>
+  </div>
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+</body>
+</html>

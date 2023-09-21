@@ -24,7 +24,7 @@ public class Usuario {
     private String apellido2Usuario;
 
     @Column(nullable = false, length = 30)
-    private String contraseñaUsuario;
+    private String contrasenaUsuario;
 
     @Column(nullable = false, length = 35)
     private String rolUsuario;
