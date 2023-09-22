@@ -20,9 +20,9 @@ public class ClienteRestController {
     }
 
     @PostMapping
-    public Cliente crearCliente(@RequestBody Cliente cliente){
+    public Cliente crearCliente(@RequestBody Cliente clienteCreado){
 
-        return objClienteService.crearCliente(cliente);
+        return objClienteService.crearCliente(clienteCreado);
     }
     @GetMapping
     public List<Cliente> listarCliente() {

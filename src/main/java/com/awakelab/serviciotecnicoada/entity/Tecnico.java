@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "Tecnicos")
-public class Tecnico extends Usuario {
+public class Tecnico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -21,13 +21,6 @@ public class Tecnico extends Usuario {
     @Column(name = "telefono", length = 15)
     private String telefonoTecnico;
 
-    @OneToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuarioTecnico;
-
-    @OneToMany(mappedBy = "tecnico")
-    private List<Producto> productos;
-
-    public void setUsuario(Usuario usuario) {
-    }
+    @OneToMany(mappedBy = "tecnicoAsignado")
+    private List<Producto> productosTecnico;
 }
