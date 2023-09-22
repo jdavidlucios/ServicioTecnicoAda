@@ -27,4 +27,7 @@ public class Tecnico extends Usuario {
 
     @OneToMany(mappedBy = "tecnico")
     private List<Producto> productos;
+
+    public void setUsuario(Usuario usuario) {
+    }
 }

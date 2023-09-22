@@ -23,4 +23,7 @@ public class Cliente extends Usuario {
     @OneToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuarioCliente;
+
+    public void setUsuario(Usuario usuario) {
+    }
 }

@@ -1,6 +1,10 @@
 package com.awakelab.serviciotecnicoada.controller;
 
+import com.awakelab.serviciotecnicoada.entity.Cliente;
+import com.awakelab.serviciotecnicoada.entity.Tecnico;
 import com.awakelab.serviciotecnicoada.entity.Usuario;
+import com.awakelab.serviciotecnicoada.repository.IClienteRepository;
+import com.awakelab.serviciotecnicoada.repository.ITecnicoRepository;
 import com.awakelab.serviciotecnicoada.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +18,7 @@ import java.util.List;
 public class UsuarioController {
 
     @Autowired
-    IUsuarioService objUsuarioService;
+    private IUsuarioService objUsuarioService;
 
     @GetMapping
     public String listarUsuario(Model model){
@@ -23,15 +27,34 @@ public class UsuarioController {
         return "TemplateUsuarios";
     }
 
-    @GetMapping("/crearUsuario")
-    public String mostrarFormularioCrearUsuario(Model model) {
-        // Aquí puedes agregar lógica para obtener los datos necesarios, si es necesario
-        return "TemplateUsuarios";
-    }
-
-    @PostMapping("/crearUsuario")
+    /*@PostMapping("/crearUsuario")
     public String crearUsuario(@ModelAttribute Usuario usuario) {
         objUsuarioService.crearUsuario(usuario);
+        return "redirect:/usuarioCreado";
+    }*/
+
+    /*@PostMapping("/crearUsuario")
+    public String crearUsuario(@ModelAttribute Usuario usuario, Model model) {
+        Usuario nuevoUsuario = objUsuarioService.crearUsuario(usuario);
+        // Agrega la lógica necesaria para redireccionar a una vista después de crear el usuario
+        return "redirect:/usuarioCreado" + nuevoUsuario.getId();
+    }*/
+
+    @PostMapping("/usuario/crearUsuario")
+    public String crearUsuario(@RequestParam("nombreUsuario") String nombreUsuario,
+                               @RequestParam("apellido1Usuario") String apellido1Usuario,
+                               @RequestParam("apellido2Usuario") String apellido2Usuario,
+                               @RequestParam("contrasenaUsuario") String contrasenaUsuario,
+                               @RequestParam("rolUsuario") String rolUsuario,
+                               @RequestParam("emailCliente") String emailCliente,
+                               @RequestParam("telefonoCliente") String telefonoCliente,
+                               @RequestParam("emailTecnico") String emailTecnico,
+                               @RequestParam("telefonoTecnico") String telefonoTecnico) {
+
+        objUsuarioService.crearUsuario(nombreUsuario, apellido1Usuario, apellido2Usuario, contrasenaUsuario,
+                rolUsuario, emailCliente, telefonoCliente, emailTecnico, telefonoTecnico);
+
+        // Redireccionar o mostrar una vista apropiada
         return "redirect:/usuarioCreado";
     }
 
