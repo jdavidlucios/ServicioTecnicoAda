@@ -22,11 +22,11 @@ public class UsuarioRestController {
         return objUsuarioService.listarUsuarioID(id);
     }
 
-    /*@PostMapping
+    @PostMapping
     public Usuario crearUsuario(@RequestBody Usuario usuario){
 
         return objUsuarioService.crearUsuario(usuario);
-    }*/
+    }
     /*@PostMapping("/crearUsuario")
     public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
         Usuario nuevoUsuario = objUsuarioService.crearUsuario(usuario);
@@ -38,7 +38,7 @@ public class UsuarioRestController {
         }
     }*/
 
-    @PostMapping("/crearUsuario")
+    /*@PostMapping("/crearUsuario")
     public ResponseEntity<String> crearUsuario(@RequestParam("nombreUsuario") String nombreUsuario,
                                                @RequestParam("apellido1Usuario") String apellido1Usuario,
                                                @RequestParam("apellido2Usuario") String apellido2Usuario,
@@ -54,7 +54,7 @@ public class UsuarioRestController {
 
         // Devolver una respuesta apropiada
         return ResponseEntity.ok("Usuario creado exitosamente");
-    }
+    }*/
 
     @GetMapping
     public List<Usuario> listarUsuarios() {

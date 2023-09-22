@@ -25,11 +25,11 @@ public class Producto {
 
     @ManyToOne
     @JoinColumn(name = "tecnico_id")
-    private Tecnico tecnico;
+    private Tecnico tecnicoAsignado;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id")
-    private Cliente cliente;
+    private Cliente clientePropietario;
 }
 
 

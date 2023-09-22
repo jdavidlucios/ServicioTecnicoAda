@@ -27,11 +27,11 @@ public class UsuarioController {
         return "TemplateUsuarios";
     }
 
-    /*@PostMapping("/crearUsuario")
+    @PostMapping("/crearUsuario")
     public String crearUsuario(@ModelAttribute Usuario usuario) {
         objUsuarioService.crearUsuario(usuario);
         return "redirect:/usuarioCreado";
-    }*/
+    }
 
     /*@PostMapping("/crearUsuario")
     public String crearUsuario(@ModelAttribute Usuario usuario, Model model) {
@@ -40,7 +40,7 @@ public class UsuarioController {
         return "redirect:/usuarioCreado" + nuevoUsuario.getId();
     }*/
 
-    @PostMapping("/usuario/crearUsuario")
+    /*@PostMapping("/usuario/crearUsuario")
     public String crearUsuario(@RequestParam("nombreUsuario") String nombreUsuario,
                                @RequestParam("apellido1Usuario") String apellido1Usuario,
                                @RequestParam("apellido2Usuario") String apellido2Usuario,
@@ -56,7 +56,7 @@ public class UsuarioController {
 
         // Redireccionar o mostrar una vista apropiada
         return "redirect:/usuarioCreado";
-    }
+    }*/
 
     @PostMapping("/eliminarUsuario/{id}")
     public String eliminarUsuario(@ModelAttribute int id) {

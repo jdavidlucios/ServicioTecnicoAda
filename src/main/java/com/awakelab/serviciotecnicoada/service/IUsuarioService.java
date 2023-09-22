@@ -6,10 +6,12 @@ import java.util.List;
 
 public interface IUsuarioService {
 
-    @Transactional
+    /*@Transactional
     void crearUsuario(String nombreUsuario, String apellido1Usuario, String apellido2Usuario,
                       String contrasenaUsuario, String rolUsuario, String emailCliente, String telefonoCliente,
-                      String emailTecnico, String telefonoTecnico);
+                      String emailTecnico, String telefonoTecnico);*/
+
+    Usuario crearUsuario(Usuario usuarioCreado);
 
     public Usuario actualizarUsuario(int id, Usuario usuario);
     public List<Usuario> listarUsuario();

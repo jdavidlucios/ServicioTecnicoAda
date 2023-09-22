@@ -1,5 +1,4 @@
 package com.awakelab.serviciotecnicoada.service.serviceimpl;
-import com.awakelab.serviciotecnicoada.entity.Cliente;
 import com.awakelab.serviciotecnicoada.entity.Tecnico;
 import com.awakelab.serviciotecnicoada.entity.Usuario;
 import com.awakelab.serviciotecnicoada.repository.IClienteRepository;
@@ -8,7 +7,6 @@ import com.awakelab.serviciotecnicoada.repository.IUsuarioRepository;
 import com.awakelab.serviciotecnicoada.service.IUsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +22,13 @@ public class UsuarioServiceImpl implements IUsuarioService {
 
     @Autowired
     private ITecnicoRepository objTecnicoRepo;
+
+    @Override
+    public Usuario crearUsuario(Usuario usuarioCreado) {
+        Usuario nuevoUsuario = new Tecnico();
+        nuevoUsuario = objUsuarioRepo.save(usuarioCreado);
+        return nuevoUsuario;
+    }
 
     /*@Override
     public Usuario crearUsuario(Usuario usuario) {
@@ -60,7 +65,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         }
     }*/
 
-    @Override
+    /*@Override
     @Transactional
     public void crearUsuario(String nombreUsuario, String apellido1Usuario, String apellido2Usuario,
                              String contrasenaUsuario, String rolUsuario, String emailCliente, String telefonoCliente,
@@ -92,8 +97,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
         }
 
         // Guardar el usuario en la base de datos
-        objUsuarioRepo.save(usuario);
-    }
+        objUsuarioRepo.save(usuario)*/
 
     @Override
     public Usuario actualizarUsuario(int id, Usuario usuario) {
