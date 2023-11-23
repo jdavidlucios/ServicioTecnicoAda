@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Grupo Ada, grupal final modulo 6</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<div th:include="~{../static/html/nav.html}"></div>
+
+<div class="container mt-4">
+  <h1>Listado de Usuarios</h1>
+  <!-- Botón para agregar usuario con formulario modal -->
+  <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#agregarUsuarioModal">
+    <i class="fa fa-plus"></i>
+    &nbsp;Agregar Usuario
+  </button>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Rol</th>
+      <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="usuario : ${atributoListarUsuarios}">
+      <td th:text="${usuario.id}"></td>
+      <td th:text="${usuario.nombreUsuario}"></td>
+      <td th:text="${usuario.rol}"></td>
+      <td>
+        <!-- Botón para editar usuario con formulario modal -->
+        <button type="button" class="btn btn-warning" data-toggle="modal" th:data-target="'#editarUsuarioModal' + ${usuario.id}">
+          <i class="fa fa-pencil"></i>
+          &nbsp;Editar
+        </button>
+        <!-- Boton eliminar -->
+        <button type="button" class="btn btn-danger" data-toggle="modal" th:data-target="'#eliminar-' + ${usuario.id}">
+          <i class="fa fa-trash"></i>
+          &nbsp;Eliminar
+        </button>
+        <!-- Modal Eliminar -->
+        <div class="modal fade" th:id="'eliminar-' + ${usuario.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Usuario</h1>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p th:text="'Se eliminará el usuario: '+${usuario.nombreUsuario}+', estas segur@?'"/>
+              </div>
+              <div class="modal-footer">
+                <form th:action="@{/usuarios/eliminar/{id}(id=${usuario.id})}" method="post">
+                  <button class="btn btn-danger" type="submit">Eliminar Usuario</button>
+                </form>
+                <button class="btn btn-success" data-dismiss="modal" type="button">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal para agregar usuario -->
+<div class="modal fade" id="agregarUsuarioModal" tabindex="-1" role="dialog" aria-labelledby="agregarUsuarioModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="agregarUsuarioModalLabel">Agregar Usuario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- Formulario para agregar usuario -->
+        <form th:action="@{/usuarios/crear}" method="post">
+          <div class="form-group">
+            <label for="nombreUsuario">Nombre de Usuario</label>
+            <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" required>
+          </div>
+          <div class="form-group">
+            <label for="contrasena">Contraseña</label>
+            <input type="password" class="form-control" id="contrasena" name="contrasena" required>
+          </div>
+          <div class="form-group">
+            <label for="rol">Rol</label>
+            <select class="form-control" id="rol" name="rol" required>
+              <option value="tecnico">Técnico</option>
+              <option value="cliente">Cliente</option>
+            </select>
+          </div>
+          <!-- Agrega más campos del formulario según tus necesidades -->
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div th:each="usuario : ${atributoListarUsuarios}">
+  <!-- Modal para editar usuario -->
+  <div class="modal fade" th:id="'editarUsuarioModal' + ${usuario.id}" tabindex="-1" role="dialog" aria-labelledby="editarUsuarioModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editarUsuarioModalLabel">Editar Usuario</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Formulario para editar usuario -->
+          <form th:action="@{/usuarios/editar/{id}(id=${usuario.id})}" method="post">
+            <div class="form-group">
+              <label for="nombreUsuario">Nombre de Usuario</label>
+              <input type="text" class="form-control" id="nombreUsuario" name="nombreUsuario" th:value="${usuario.nombreUsuario}" required>
+            </div>
+            <div class="form-group">
+              <label for="contrasena">Contraseña</label>
+              <input type="password" class="form-control" id="contrasena" name="contrasena" th:value="${usuario.contrasena}" required>
+            </div>
+            <div class="form-group">
+              <label for="rol">Rol</label>
+              <select class="form-control" id="rol" name="rol" required>
+                <option value="tecnico" th:selected="${usuario.rol == 'tecnico'}">Técnico</option>
+                <option value="cliente" th:selected="${usuario.rol == 'cliente'}">Cliente</option>
+              </select>
+            </div>
+            <!-- Agrega más campos del formulario según tus necesidades -->
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

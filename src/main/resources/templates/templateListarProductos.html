@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Productos</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<div th:include="~{../static/html/nav.html}"></div>
+
+<div class="container mt-4">
+  <h1>Listado de Productos</h1>
+
+  <button type="button" class="btn btn-primary mb-2" data-toggle="modal" data-target="#agregarProductoModal">
+    <i class="fa fa-plus"></i>
+    &nbsp;Agregar Producto
+  </button>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Código</th>
+      <th>Nombre</th>
+      <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="producto : ${atributoListarProductos}">
+      <td th:text="${producto.id}"></td>
+      <td th:text="${producto.codigo_producto}"></td>
+      <td th:text="${producto.nombre_producto}"></td>
+      <td>
+        <button type="button" class="btn btn-warning" data-toggle="modal" th:data-target="'#editarProductoModal' + ${producto.id}">
+          <i class="fa fa-pencil"></i>
+          &nbsp;Editar
+        </button>
+        <!-- Boton eliminar -->
+        <button type="button" class="btn btn-danger" data-toggle="modal" th:data-target="'#eliminar-' + ${producto.id}">
+          <i class="fa fa-trash"></i>
+          &nbsp;Eliminar
+        </button>
+        <!-- Modal Eliminar -->
+        <div class="modal fade" th:id="'eliminar-' + ${producto.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar Producto</h1>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p th:text="'Se eliminará el producto: '+${producto.nombre_producto}+', ¿estás seguro(a)?'"/>
+              </div>
+              <div class="modal-footer">
+                <form th:action="@{/productos/eliminar/{id}(id=${producto.id})}" method="post">
+                  <button class="btn btn-danger" type="submit">Eliminar Producto</button>
+                </form>
+                <button class="btn btn-success" data-dismiss="modal" type="button">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="modal fade" id="agregarProductoModal" tabindex="-1" role="dialog" aria-labelledby="agregarProductoModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="agregarProductoModalLabel">Agregar Producto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/productos/crear}" method="post">
+          <div class="form-group">
+            <label for="codigo_producto">Código de Producto</label>
+            <input type="text" class="form-control" id="codigo_producto" name="codigo_producto" required>
+          </div>
+          <div class="form-group">
+            <label for="nombre_producto">Nombre de Producto</label>
+            <input type="text" class="form-control" id="nombre_producto" name="nombre_producto" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Guardar</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div th:each="producto : ${atributoListarProductos}">
+    <div class="modal fade" th:id="'editarProductoModal' + ${producto.id}" tabindex="-1" role="dialog" aria-labelledby="editarProductoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editarProductoModalLabel">Editar Producto</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <form th:action="@{/productos/editar/{id}(id=${producto.id})}" method="post">
+            <div class="form-group">
+              <label for="codigo_producto">Código de Producto</label>
+              <input type="text" class="form-control" id="codigo_producto" name="codigo_producto" th:value="${producto.codigo_producto}" required>
+            </div>
+            <div class="form-group">
+              <label for="nombre_producto">Nombre de Producto</label>
+              <input type="text" class="form-control" id="nombre_producto" name="nombre_producto" th:value="${producto.nombre_producto}" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
