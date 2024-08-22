@@ -108,7 +108,7 @@
                 <executable>bash</executable>
                 <arguments>
                     <argument>-c</argument>
-                    <argument>export JAVA_HOME=/opt/render/project/.java && ./mvnw clean install</argument>
+                    <argument>export JAVA_HOME=/usr/lib/jvm/java-11-openjdk/ && ./mvnw clean install</argument>
                 </arguments>
             </configuration>
         </plugin>
