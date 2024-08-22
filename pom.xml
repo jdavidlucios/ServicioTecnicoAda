@@ -91,4 +91,29 @@
         </plugins>
     </build>
 
+    <build>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.0.0</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>exec</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <executable>bash</executable>
+                <arguments>
+                    <argument>-c</argument>
+                    <argument>export JAVA_HOME=/opt/render/project/.java && ./mvnw clean install</argument>
+                </arguments>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
+
 </project>
