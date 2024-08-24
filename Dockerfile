@@ -1,29 +1,14 @@
-# Use an official Java runtime as a parent image
-FROM openjdk:17-jdk-alpine
-
-# Set the working directory inside the container
-WORKDIR /app
-
-# Copy the project’s pom.xml and mvnw files
-COPY mvnw .
-COPY .mvn .mvn
-COPY pom.xml .
-
-# Grant execution rights on the mvnw wrapper
-RUN chmod +x ./mvnw
-
-# Build the project
+FROM eclipse-temurin:17-jdk-jammy AS base
+WORKDIR /service
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
 RUN ./mvnw dependency:resolve
+COPY src src
+
+FROM base AS build
 RUN ./mvnw clean package -DskipTests
 
-# Copy the final jar file to the container
-COPY target/*.jar app.jar
-
-# Set JAVA_HOME environment variable
-ENV JAVA_HOME=/usr/lib/jvm/java-17-openjdk
-
-# Expose the port that the app will run on
-EXPOSE 8080
-
-# Run the jar file
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+FROM eclipse-temurin:17-jre-jammy
+WORKDIR /service
+COPY --from=build /service/target/spring-petclinic-*.jar spring-petclinic.jar
+CMD ["java", "-Dspring.profiles.active=postgres", "-jar", "/service/spring-petclinic.jar"]
